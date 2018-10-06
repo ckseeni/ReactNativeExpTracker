@@ -2,21 +2,36 @@ import React from 'react';
 import {StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
 
 export default class App extends React.Component {
-  _onPress() {}
+
+  constructor(props){
+    super(props);
+    this.state = {
+      name : '',
+      amount : ''
+    }
+  }
+
+  _onPressAddButton() {
+    alert(this.state.name + "\n" + this.state.amount);
+  }
+
   render() {
     return (
       <View style = {styles.mainView}>
         <Text style = {styles.title}>Expense Tracker</Text>
         <Text style = {styles.name}>Name</Text>
-        <TextInput style = {styles.nameInput} placeholder = "Enter the item name" placeholderTextColor = "#000000"/>
+        <TextInput style = {styles.nameInput} placeholder = "Enter the item name" onChangeText = {(text) => this.setState({name: text})}
+        placeholderTextColor = "#000000"/>
         <Text style = {styles.amount}>Amount</Text>
-        <TextInput style = {styles.amountInput} placeholder = "Enter the amount" placeholderTextColor = "#000000"/>
+        <TextInput style = {styles.amountInput} placeholder = "Enter the amount" onChangeText = {(text) => this.setState({amount: text})}
+        keyboardType='numeric'
+        placeholderTextColor = "#000000"/>
         <View style = {styles.addButton}>
-         <TouchableOpacity>
-            <Text style = {styles.addButtonText}>
-               Add
-            </Text>
-         </TouchableOpacity>
+        <TouchableOpacity onPress = {this._onPressAddButton.bind(this)}>
+          <Text style = {styles.addButtonText}>
+            Add
+          </Text>
+        </TouchableOpacity>
         </View>
       </View>
     );
