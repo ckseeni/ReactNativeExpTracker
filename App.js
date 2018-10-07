@@ -8,8 +8,13 @@ export default class App extends React.Component {
     this.state = {
       name : '',
       amount : '',
-      modalVisible : false
-    }
+      modalVisible : false,
+      expData: []
+    };
+    this._retrieveExpItem().then((expArray) => {
+      this.state.expData = expArray;
+    }).catch((error) => {
+    });
   }
 
   async _storeExpItem(expDataJson) {
@@ -42,16 +47,18 @@ export default class App extends React.Component {
     }).catch((error) => {
         alert(error);
     });
+    this._retrieveExpItem().then((expArray) => {
+      this.state.expData = expArray;
+    }).catch((error) => {
+    });
   }
 
   _onPressRetrieveButton() {
     this._retrieveExpItem().then((expArray) => {
-      for(var i=0; i<expArray.length; i++){
-        alert(expArray[i].name + "" + expArray[i].amount);
-      }
+      this.state.expData = expArray;
     }).catch((error) => {
-        alert(error);
     });
+    this.setState({modalVisible: true});
   }
 
   _setModalVisible(visible) {
@@ -77,7 +84,7 @@ export default class App extends React.Component {
           </TouchableOpacity>
         </View>
         <View style = {styles.retrieveButton}>
-          <TouchableOpacity onPress = {() => {this._setModalVisible(true);}}>
+          <TouchableOpacity onPress = {() => {this._onPressRetrieveButton()}}>
             <Text style = {styles.retrieveButtonText}>
             Retrieve
             </Text>
@@ -89,6 +96,9 @@ export default class App extends React.Component {
             alert('Modal has been closed.');
           }}>
           <View style = {styles.modalView}>
+            <View>
+              {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
+            </View>
             <View style = {styles.modalCloseButton}>
               <TouchableOpacity onPress={() => {this._setModalVisible(false);}}>
                 <Text style = {styles.modalCloseText}>
@@ -103,12 +113,17 @@ export default class App extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  expList: {
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 20,
+  },
   modalView: {
     flex: 1,
     backgroundColor: '#000000',
   },
   modalCloseButton: {
-    top: 570,
+    top: 100,
     height: 40,
     width: 230,
     alignSelf: 'center',
