@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
+import {AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
 
 export default class App extends React.Component {
 
@@ -11,8 +11,46 @@ export default class App extends React.Component {
     }
   }
 
+  async _storeExpItem(expDataJson) {
+      var item = await AsyncStorage.getItem("expenses");
+      if(item !== null) {
+        var expArray = JSON.parse(item);
+        expArray.push(expDataJson);
+        await AsyncStorage.setItem("expenses", JSON.stringify(expArray));
+      }
+      else {
+        var expArray = [];
+        expArray.push(expDataJson);
+        await AsyncStorage.setItem("expenses", JSON.stringify(expArray));
+      }
+  }
+
+  async _retrieveExpItem() {
+    var item =  await AsyncStorage.getItem("expenses");
+    var expArray = JSON.parse(item);
+    return expArray;
+  }
+
   _onPressAddButton() {
-    alert(this.state.name + "\n" + this.state.amount);
+    var expDataJson = {
+      "name" : this.state.name,
+      "amount" : this.state.amount
+    };
+    this._storeExpItem(expDataJson).then(() => {
+      alert("stored");
+    }).catch((error) => {
+        alert(error);
+    });
+  }
+
+  _onPressRetrieveButton() {
+    this._retrieveExpItem().then((expArray) => {
+      for(var i=0; i<expArray.length; i++){
+        alert(expArray[i].name + "" + expArray[i].amount);
+      }
+    }).catch((error) => {
+        alert(error);
+    });
   }
 
   render() {
@@ -30,6 +68,11 @@ export default class App extends React.Component {
         <TouchableOpacity onPress = {this._onPressAddButton.bind(this)}>
           <Text style = {styles.addButtonText}>
             Add
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress = {this._onPressRetrieveButton.bind(this)}>
+          <Text style = {styles.addButtonText}>
+            retrieve
           </Text>
         </TouchableOpacity>
         </View>
