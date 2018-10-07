@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
+import {Modal, AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
 
 export default class App extends React.Component {
 
@@ -7,7 +7,8 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       name : '',
-      amount : ''
+      amount : '',
+      modalVisible : false
     }
   }
 
@@ -53,6 +54,10 @@ export default class App extends React.Component {
     });
   }
 
+  _setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   render() {
     return (
       <View style = {styles.mainView}>
@@ -65,22 +70,56 @@ export default class App extends React.Component {
         keyboardType='numeric'
         placeholderTextColor = "#000000"/>
         <View style = {styles.addButton}>
-        <TouchableOpacity onPress = {this._onPressAddButton.bind(this)}>
-          <Text style = {styles.addButtonText}>
-            Add
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress = {this._onPressRetrieveButton.bind(this)}>
-          <Text style = {styles.addButtonText}>
-            retrieve
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress = {this._onPressAddButton.bind(this)}>
+            <Text style = {styles.addButtonText}>
+              Add
+            </Text>
+          </TouchableOpacity>
         </View>
+        <View style = {styles.retrieveButton}>
+          <TouchableOpacity onPress = {() => {this._setModalVisible(true);}}>
+            <Text style = {styles.retrieveButtonText}>
+            Retrieve
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <Modal animationType = "slide" transparent = {false} visible = {this.state.modalVisible}
+          onRequestClose = {() => {
+            alert('Modal has been closed.');
+          }}>
+          <View style = {styles.modalView}>
+            <View style = {styles.modalCloseButton}>
+              <TouchableOpacity onPress={() => {this._setModalVisible(false);}}>
+                <Text style = {styles.modalCloseText}>
+                  Close
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  modalView: {
+    flex: 1,
+    backgroundColor: '#000000',
+  },
+  modalCloseButton: {
+    top: 570,
+    height: 40,
+    width: 230,
+    alignSelf: 'center',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+  },
+  modalCloseText: {
+    textAlign: 'center',
+    color: '#000000',
+    fontSize: 20,
+  },
   mainView: {
     flex: 1,
     backgroundColor: '#000000',
@@ -126,6 +165,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   addButtonText: {
+    textAlign: 'center',
+    color: '#000000',
+    fontSize: 20,
+  },
+  retrieveButton: {
+    top: 300,
+    height: 40,
+    width: 230,
+    alignSelf: 'center',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+  },
+  retrieveButtonText: {
     textAlign: 'center',
     color: '#000000',
     fontSize: 20,
