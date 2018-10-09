@@ -1,20 +1,16 @@
 import React from 'react';
 import {Modal, AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
+import {createStackNavigator} from 'react-navigation'; // Version can be specified in package.json
 
-export default class App extends React.Component {
+class AddScreen extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
       name : '',
       amount : '',
-      modalVisible : false,
       expData: []
     };
-    this._retrieveExpItem().then((expArray) => {
-      this.state.expData = expArray;
-    }).catch((error) => {
-    });
   }
 
   async _storeExpItem(expDataJson) {
@@ -47,23 +43,14 @@ export default class App extends React.Component {
     }).catch((error) => {
         alert(error);
     });
+  }
+
+  /*_onPressRetrieveButton() {
     this._retrieveExpItem().then((expArray) => {
       this.state.expData = expArray;
     }).catch((error) => {
     });
-  }
-
-  _onPressRetrieveButton() {
-    this._retrieveExpItem().then((expArray) => {
-      this.state.expData = expArray;
-    }).catch((error) => {
-    });
-    this.setState({modalVisible: true});
-  }
-
-  _setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
+  }*/
 
   render() {
     return (
@@ -84,34 +71,73 @@ export default class App extends React.Component {
           </TouchableOpacity>
         </View>
         <View style = {styles.retrieveButton}>
-          <TouchableOpacity onPress = {() => {this._onPressRetrieveButton()}}>
+          <TouchableOpacity onPress = {() => this.props.navigation.navigate('Retrieve')}>
             <Text style = {styles.retrieveButtonText}>
             Retrieve
             </Text>
           </TouchableOpacity>
         </View>
-
-        <Modal animationType = "slide" transparent = {false} visible = {this.state.modalVisible}
-          onRequestClose = {() => {
-            alert('Modal has been closed.');
-          }}>
-          <View style = {styles.modalView}>
-            <View>
-              {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
-            </View>
-            <View style = {styles.modalCloseButton}>
-              <TouchableOpacity onPress={() => {this._setModalVisible(false);}}>
-                <Text style = {styles.modalCloseText}>
-                  Close
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
       </View>
     );
   }
 }
+
+class RetreiveScreen extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      expData: []
+    };
+    //alert(this.state.expData);
+    this._retrieveExpItem().then((expArray) => {
+      this.state.expData = expArray;
+      //alert(this.state.expData);
+    }).catch((error) => {
+    });
+  }
+
+   async _retrieveExpItem() {
+    var item =   await AsyncStorage.getItem("expenses");
+    var expArray = JSON.parse(item);
+    return expArray;
+  }
+
+  render() {
+    return (
+      <View style = {styles.modalView}>
+        <View>
+          {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{alert(item.name+" : "+item.amount)}</Text>)}
+        </View>
+        <View style = {styles.modalCloseButton}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
+            <Text style = {styles.modalCloseText}>
+              Close
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+}
+
+const RootStack = createStackNavigator({
+    Add: AddScreen,
+    Retrieve: RetreiveScreen,
+  },{
+    initialRouteName: 'Add',
+    navigationOptions: {
+      header: null,
+    }
+  }
+);
+
+export default class App extends React.Component {
+  render() {
+    return <RootStack />;
+  }
+}
+
 const styles = StyleSheet.create({
   expList: {
     textAlign: 'center',
@@ -123,7 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   modalCloseButton: {
-    top: 100,
+    top: 570,
     height: 40,
     width: 230,
     alignSelf: 'center',
