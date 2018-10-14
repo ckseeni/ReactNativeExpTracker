@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from 'react-native';
+import {Modal, AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import {createStackNavigator} from 'react-navigation'; // Version can be specified in package.json
 
 class AddScreen extends React.Component {
@@ -95,13 +95,13 @@ class RetreiveScreen extends React.Component {
 
   render() {
     return (
-      <View style = {styles.modalView}>
-        <View>
+      <View style = {styles.retrieveScreenView}>
+        <ScrollView>
           {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
-        </View>
-        <View style = {styles.modalCloseButton}>
+        </ScrollView>
+        <View style = {styles.retrieveScreenCloseButton}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
-            <Text style = {styles.modalCloseText}>
+            <Text style = {styles.retrieveScreenCloseText}>
               Close
             </Text>
           </TouchableOpacity>
@@ -134,19 +134,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 20,
   },
-  modalView: {
+  retrieveScreenView: {
     flex: 1,
     backgroundColor: '#000000',
   },
-  modalCloseButton: {
-    top: 570,
+  retrieveScreenCloseButton: {
     height: 40,
     width: 230,
     alignSelf: 'center',
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
   },
-  modalCloseText: {
+  retrieveScreenCloseText: {
     textAlign: 'center',
     color: '#000000',
     fontSize: 20,
