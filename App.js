@@ -1,10 +1,10 @@
 import React from 'react';
-import {Modal, AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ScrollView} from 'react-native';
+import {Modal, AsyncStorage, StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import {createStackNavigator} from 'react-navigation'; // Version can be specified in package.json
 
 class AddScreen extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       name : '',
@@ -39,7 +39,7 @@ class AddScreen extends React.Component {
       "amount" : this.state.amount
     };
     this._storeExpItem(expDataJson).then(() => {
-      alert("stored");
+      alert(expDataJson.name+" "+expDataJson.amount+"\nis stored");
     }).catch((error) => {
         alert(error);
     });
@@ -86,11 +86,38 @@ class AddScreen extends React.Component {
 
 class RetreiveScreen extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      expData: props.navigation.state.params.expData
+      expData : []
     };
+    var expense = props.navigation.state.params.expData;
+    if(expense) {
+      this.state.expData = expense;
+    }
+  }
+
+  async removeAsyncvalue(key) {
+    await AsyncStorage.removeItem(key);
+  }
+
+  _onPressClearButton() {
+    Alert.alert(
+      'Data will be deleted premanently!!',
+      '\nAre you want to Proceed ?',
+      [
+        {text: 'YES', onPress: () => this._removingData()},
+        {text: 'NO', onPress: () => {}},
+      ],
+    );
+  }
+
+  _removingData() {
+    this.removeAsyncvalue("expenses").then(() => {
+      this.state.expData = [];
+      this.forceUpdate();
+      alert("Data cleared");
+    }).catch();
   }
 
   render() {
@@ -99,12 +126,24 @@ class RetreiveScreen extends React.Component {
         <ScrollView>
           {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
         </ScrollView>
-        <View style = {styles.retrieveScreenCloseButton}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
-            <Text style = {styles.retrieveScreenCloseText}>
-              Close
-            </Text>
-          </TouchableOpacity>
+        <View style = {styles.retrieveScreenButtonView}>
+          <View style = {{width: 60}}></View>
+          <View style = {styles.retrieveScreenCloseButton}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
+              <Text style = {styles.retrieveScreenCloseText}>
+                Close
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style = {{width: 90}}></View>
+          <View style = {styles.retrieveScreenClearButton}>
+            <TouchableOpacity onPress={this._onPressClearButton.bind(this)}>
+              <Text style = {styles.retrieveScreenClearText}>
+                Clear
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style = {{width: 20}}></View>
         </View>
       </View>
     );
@@ -138,14 +177,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
+  retrieveScreenButtonView: {
+    flexDirection: 'row',
+  },
   retrieveScreenCloseButton: {
     height: 40,
-    width: 230,
-    alignSelf: 'center',
+    width: 100,
+    alignSelf: 'flex-start',
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
   },
   retrieveScreenCloseText: {
+    textAlign: 'center',
+    color: '#000000',
+    fontSize: 20,
+  },
+  retrieveScreenClearButton: {
+    height: 40,
+    width: 100,
+    alignSelf: 'flex-end',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+  },
+  retrieveScreenClearText: {
     textAlign: 'center',
     color: '#000000',
     fontSize: 20,
