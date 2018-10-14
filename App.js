@@ -45,12 +45,14 @@ class AddScreen extends React.Component {
     });
   }
 
-  /*_onPressRetrieveButton() {
+  _onPressRetrieveButton() {
     this._retrieveExpItem().then((expArray) => {
       this.state.expData = expArray;
     }).catch((error) => {
+    }).then(() => {
+      this.props.navigation.navigate('Retrieve', {expData : this.state.expData});
     });
-  }*/
+  }
 
   render() {
     return (
@@ -71,7 +73,7 @@ class AddScreen extends React.Component {
           </TouchableOpacity>
         </View>
         <View style = {styles.retrieveButton}>
-          <TouchableOpacity onPress = {() => this.props.navigation.navigate('Retrieve')}>
+          <TouchableOpacity onPress = {this._onPressRetrieveButton.bind(this)}>
             <Text style = {styles.retrieveButtonText}>
             Retrieve
             </Text>
@@ -87,27 +89,15 @@ class RetreiveScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      expData: []
+      expData: props.navigation.state.params.expData
     };
-    //alert(this.state.expData);
-    this._retrieveExpItem().then((expArray) => {
-      this.state.expData = expArray;
-      //alert(this.state.expData);
-    }).catch((error) => {
-    });
-  }
-
-   async _retrieveExpItem() {
-    var item =   await AsyncStorage.getItem("expenses");
-    var expArray = JSON.parse(item);
-    return expArray;
   }
 
   render() {
     return (
       <View style = {styles.modalView}>
         <View>
-          {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{alert(item.name+" : "+item.amount)}</Text>)}
+          {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
         </View>
         <View style = {styles.modalCloseButton}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
