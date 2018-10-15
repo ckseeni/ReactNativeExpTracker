@@ -60,11 +60,11 @@ class AddScreen extends React.Component {
         <Text style = {styles.title}>Expense Tracker</Text>
         <Text style = {styles.name}>Name</Text>
         <TextInput style = {styles.nameInput} placeholder = "Enter the item name" onChangeText = {(text) => this.setState({name: text})}
-        placeholderTextColor = "#000000"/>
+        placeholderTextColor = "rgba(255, 255, 255, 0.8)"/>
         <Text style = {styles.amount}>Amount</Text>
         <TextInput style = {styles.amountInput} placeholder = "Enter the amount" onChangeText = {(text) => this.setState({amount: text})}
         keyboardType='numeric'
-        placeholderTextColor = "#000000"/>
+        placeholderTextColor = "rgba(255, 255, 255, 0.8)"/>
         <View style = {styles.addButton}>
           <TouchableOpacity onPress = {this._onPressAddButton.bind(this)}>
             <Text style = {styles.addButtonText}>
@@ -127,7 +127,6 @@ class RetreiveScreen extends React.Component {
           {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
         </ScrollView>
         <View style = {styles.retrieveScreenButtonView}>
-          <View style = {{width: 60}}></View>
           <View style = {styles.retrieveScreenCloseButton}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
               <Text style = {styles.retrieveScreenCloseText}>
@@ -135,7 +134,6 @@ class RetreiveScreen extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style = {{width: 90}}></View>
           <View style = {styles.retrieveScreenClearButton}>
             <TouchableOpacity onPress={this._onPressClearButton.bind(this)}>
               <Text style = {styles.retrieveScreenClearText}>
@@ -143,7 +141,6 @@ class RetreiveScreen extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style = {{width: 20}}></View>
         </View>
       </View>
     );
@@ -175,38 +172,38 @@ const styles = StyleSheet.create({
   },
   retrieveScreenView: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: 'rgb(32, 53, 70)',
   },
   retrieveScreenButtonView: {
     flexDirection: 'row',
   },
   retrieveScreenCloseButton: {
+    flex: 1,
     height: 40,
     width: 100,
-    alignSelf: 'flex-start',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
   },
   retrieveScreenCloseText: {
     textAlign: 'center',
-    color: '#000000',
+    color: '#FFFFFF',
     fontSize: 20,
   },
   retrieveScreenClearButton: {
+    flex: 1,
     height: 40,
     width: 100,
-    alignSelf: 'flex-end',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
   },
   retrieveScreenClearText: {
     textAlign: 'center',
-    color: '#000000',
+    color: '#FFFFFF',
     fontSize: 20,
   },
   mainView: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: 'rgb(32, 53, 70)',
   },
   title: {
     top: 100,
@@ -225,7 +222,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 230,
     alignSelf: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   amount: {
     top: 190,
@@ -238,19 +235,19 @@ const styles = StyleSheet.create({
     height: 40,
     width: 230,
     alignSelf: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   addButton: {
     top: 260,
     height: 40,
     width: 230,
     alignSelf: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
   },
   addButtonText: {
     textAlign: 'center',
-    color: '#000000',
+    color: '#FFFFFF',
     fontSize: 20,
   },
   retrieveButton: {
@@ -258,12 +255,12 @@ const styles = StyleSheet.create({
     height: 40,
     width: 230,
     alignSelf: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
   },
   retrieveButtonText: {
     textAlign: 'center',
-    color: '#000000',
+    color: '#FFFFFF',
     fontSize: 20,
   }
 });
