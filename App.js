@@ -47,7 +47,7 @@ class AddScreen extends React.Component {
       "dateAndTime": dtString
     };
     this._storeExpItem(expDataJson).then(() => {
-      alert(expDataJson.name+" "+expDataJson.amount+"\nis stored at "+expDataJson.dateAndTime);
+      alert(expDataJson.name+" "+expDataJson.amount+"\nis stored on "+expDataJson.dateAndTime);
     }).catch((error) => {
         alert(error);
     });
@@ -97,7 +97,8 @@ class RetreiveScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expData : []
+      expData : [],
+      total: 0
     };
     var expense = props.navigation.state.params.expData;
     if(expense) {
@@ -132,7 +133,17 @@ class RetreiveScreen extends React.Component {
     return (
       <View style = {styles.retrieveScreenView}>
         <ScrollView>
-          {this.state.expData.map((item, key) => <Text key={key} onPress = {() => alert(item.name+" : "+item.amount+"\nadded on "+item.dateAndTime)} style = {styles.expList}>{item.name+" : "+item.amount+"\n"}</Text>)}
+          {this.state.expData.map((item, key) =>
+            <Text key={key}
+              onPress = {() => alert(item.name+" : "+item.amount+"\nadded on "+item.dateAndTime)}
+              style = {styles.expList}>
+              {item.name+" : "+item.amount+"\n"}
+            </Text>
+          )}
+          {this.state.expData.map((item, key) => {this.state.total = this.state.total + Number(item.amount)})}
+          <Text style = {styles.expList}>
+            Total Expense : {this.state.total}
+          </Text>
         </ScrollView>
         <View style = {styles.retrieveScreenClearButton}>
           <TouchableOpacity onPress={this._onPressClearButton.bind(this)}>
