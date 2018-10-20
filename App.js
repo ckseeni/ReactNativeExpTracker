@@ -33,13 +33,21 @@ class AddScreen extends React.Component {
     return expArray;
   }
 
+  _getDateAndTime(){
+    var date = new Date();
+    var dtString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    return dtString;
+  }
+
   _onPressAddButton() {
+    var dtString = this._getDateAndTime();
     var expDataJson = {
       "name" : this.state.name,
-      "amount" : this.state.amount
+      "amount" : this.state.amount,
+      "dateAndTime": dtString
     };
     this._storeExpItem(expDataJson).then(() => {
-      alert(expDataJson.name+" "+expDataJson.amount+"\nis stored");
+      alert(expDataJson.name+" "+expDataJson.amount+"\nis stored at "+expDataJson.dateAndTime);
     }).catch((error) => {
         alert(error);
     });
@@ -124,15 +132,15 @@ class RetreiveScreen extends React.Component {
     return (
       <View style = {styles.retrieveScreenView}>
         <ScrollView>
-          {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
+          {this.state.expData.map((item, key) => <Text key={key} onPress = {() => alert(item.name+" : "+item.amount+"\nadded on "+item.dateAndTime)} style = {styles.expList}>{item.name+" : "+item.amount+"\n"}</Text>)}
         </ScrollView>
-          <View style = {styles.retrieveScreenClearButton}>
-            <TouchableOpacity onPress={this._onPressClearButton.bind(this)}>
-              <Text style = {styles.retrieveScreenClearText}>
-                Clear
-              </Text>
-            </TouchableOpacity>
-          </View>
+        <View style = {styles.retrieveScreenClearButton}>
+          <TouchableOpacity onPress={this._onPressClearButton.bind(this)}>
+            <Text style = {styles.retrieveScreenClearText}>
+              Clear
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
