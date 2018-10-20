@@ -126,14 +126,6 @@ class RetreiveScreen extends React.Component {
         <ScrollView>
           {this.state.expData.map((item, key) => <Text key={key} style = {styles.expList}>{item.name+" : "+item.amount}</Text>)}
         </ScrollView>
-        <View style = {styles.retrieveScreenButtonView}>
-          <View style = {styles.retrieveScreenCloseButton}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Add')}>
-              <Text style = {styles.retrieveScreenCloseText}>
-                Close
-              </Text>
-            </TouchableOpacity>
-          </View>
           <View style = {styles.retrieveScreenClearButton}>
             <TouchableOpacity onPress={this._onPressClearButton.bind(this)}>
               <Text style = {styles.retrieveScreenClearText}>
@@ -141,7 +133,6 @@ class RetreiveScreen extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
       </View>
     );
   }
@@ -172,29 +163,15 @@ const styles = StyleSheet.create({
   },
   retrieveScreenView: {
     flex: 1,
-    backgroundColor: 'rgb(32, 53, 70)',
-  },
-  retrieveScreenButtonView: {
-    flexDirection: 'row',
-  },
-  retrieveScreenCloseButton: {
-    flex: 1,
-    height: 40,
-    width: 100,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    justifyContent: 'center',
-  },
-  retrieveScreenCloseText: {
-    textAlign: 'center',
-    color: '#FFFFFF',
-    fontSize: 20,
+    backgroundColor: '#455A64',
   },
   retrieveScreenClearButton: {
-    flex: 1,
     height: 40,
-    width: 100,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    width: 230,
+    alignSelf: 'center',
+    backgroundColor: '#1C313A',
     justifyContent: 'center',
+    borderRadius: 25,
   },
   retrieveScreenClearText: {
     textAlign: 'center',
@@ -203,7 +180,7 @@ const styles = StyleSheet.create({
   },
   mainView: {
     flex: 1,
-    backgroundColor: 'rgb(32, 53, 70)',
+    backgroundColor: '#455A64',
   },
   title: {
     top: 100,
@@ -222,7 +199,10 @@ const styles = StyleSheet.create({
     height: 40,
     width: 230,
     alignSelf: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    textAlign: 'center',
+    color: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: 25,
   },
   amount: {
     top: 190,
@@ -234,16 +214,20 @@ const styles = StyleSheet.create({
     top: 210,
     height: 40,
     width: 230,
+    textAlign: 'center',
     alignSelf: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    color: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: 25,
   },
   addButton: {
     top: 260,
     height: 40,
     width: 230,
     alignSelf: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: '#1C313A',
     justifyContent: 'center',
+    borderRadius: 25,
   },
   addButtonText: {
     textAlign: 'center',
@@ -255,8 +239,9 @@ const styles = StyleSheet.create({
     height: 40,
     width: 230,
     alignSelf: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: '#1C313A',
     justifyContent: 'center',
+    borderRadius: 25,
   },
   retrieveButtonText: {
     textAlign: 'center',
