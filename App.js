@@ -76,14 +76,14 @@ class AddScreen extends React.Component {
         <View style = {styles.addButton}>
           <TouchableOpacity onPress = {this._onPressAddButton.bind(this)}>
             <Text style = {styles.addButtonText}>
-              Add
+              +
             </Text>
           </TouchableOpacity>
         </View>
         <View style = {styles.retrieveButton}>
           <TouchableOpacity onPress = {this._onPressRetrieveButton.bind(this)}>
             <Text style = {styles.retrieveButtonText}>
-            Retrieve
+             >
             </Text>
           </TouchableOpacity>
         </View>
@@ -148,7 +148,7 @@ class RetreiveScreen extends React.Component {
         <View style = {styles.retrieveScreenClearButton}>
           <TouchableOpacity onPress={this._onPressClearButton.bind(this)}>
             <Text style = {styles.retrieveScreenClearText}>
-              Clear
+              X
             </Text>
           </TouchableOpacity>
         </View>
@@ -185,8 +185,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#455A64',
   },
   retrieveScreenClearButton: {
-    height: 40,
-    width: 230,
+    height: 50,
+    width: 50,
     alignSelf: 'center',
     backgroundColor: '#1C313A',
     justifyContent: 'center',
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   retrieveScreenClearText: {
     textAlign: 'center',
     color: '#FFFFFF',
-    fontSize: 20,
+    fontSize: 25,
   },
   mainView: {
     flex: 1,
@@ -241,8 +241,8 @@ const styles = StyleSheet.create({
   },
   addButton: {
     top: 260,
-    height: 40,
-    width: 230,
+    height: 50,
+    width: 50,
     alignSelf: 'center',
     backgroundColor: '#1C313A',
     justifyContent: 'center',
@@ -251,12 +251,12 @@ const styles = StyleSheet.create({
   addButtonText: {
     textAlign: 'center',
     color: '#FFFFFF',
-    fontSize: 20,
+    fontSize: 35,
   },
   retrieveButton: {
     top: 300,
-    height: 40,
-    width: 230,
+    height: 50,
+    width: 50,
     alignSelf: 'center',
     backgroundColor: '#1C313A',
     justifyContent: 'center',
@@ -265,6 +265,6 @@ const styles = StyleSheet.create({
   retrieveButtonText: {
     textAlign: 'center',
     color: '#FFFFFF',
-    fontSize: 20,
+    fontSize: 35,
   }
 });
